@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import style from "../src/CSS/Style.css";
+
+const url =
+  "https://newsapi.org/v2/everything?q=tesla&from=2023-08-03&sortBy=publishedAt&apiKey=4783a4766727469eb9e05693ae480b9d";
 
 function App() {
-  const url =
-    "https://newsapi.org/v2/everything?q=tesla&from=2023-08-03&sortBy=publishedAt&apiKey=4783a4766727469eb9e05693ae480b9d";
   const [data, setData] = useState([]);
 
   const getData = () => {
@@ -15,30 +17,23 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <h1 style={{ color: "purple", textAlign: "center" }}>News</h1>
+    <div>
       <center>
-        {data.slice(0, 5).map((dataObj, index) => {
-          return (
-            <div
-              style={{
-                width: "40em",
-                backgroundColor: "violet",
-                padding: 2,
-                borderRadius: 10,
-                marginBlock: 10,
-              }}
-            >
-              <p style={{ fontSize: 13, color: "white" }}>{dataObj.title}</p>
-              <p style={{ fontSize: 13, color: "white" }}>
-                {dataObj.description}
-              </p>
-            </div>
-          );
-        })}
+        <h1 className="page-title">News</h1>
+        <div className="total">
+          {data.slice(0, 10).map((dataObj, index) => {
+            return (
+              <div key={dataObj.publishedAt}>
+                <div className="news">
+                  <p>{dataObj.title}</p>
+                  <p>{dataObj.description}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </center>
     </div>
   );
 }
-
 export default App;
