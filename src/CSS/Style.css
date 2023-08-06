@@ -1,8 +1,7 @@
 .total {
-  display: flex;
+   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  flex-basis: 1fr; 
+  flex-wrap: wrap; 
   width: 600px;
 }
 
@@ -22,6 +21,13 @@
     padding: 1%;
     margin: 5px;
     background-color: rgb(98, 159, 216); 
-    border:1px solid rgb(241, 127, 33);
+    border:1px solid brown;
     border-radius: 3%;
+  }
+
+  .pnews{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-basis: 1fr; 
   }

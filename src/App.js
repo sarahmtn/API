@@ -8,32 +8,42 @@ const url =
 function App() {
   const [data, setData] = useState([]);
 
-  const getData = () => {
-    return axios.get(url).then((res) => setData(res.data.articles));
-  };
-
   useEffect(() => {
     getData();
   }, []);
+
+  const getData = () => {
+    axios
+      .get(url)
+      .then((response) => {
+        const dataArray = [];
+        response.data.articles.forEach((dataObj) => {
+          dataArray.push(
+            <div key={dataObj.publishedAt}>
+              <div className="news">
+                <p>{dataObj.title}</p>
+                <p>{dataObj.description}</p>
+              </div>
+            </div>
+          );
+        });
+        setData(dataArray);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   return (
     <div>
       <center>
         <h1 className="page-title">News</h1>
         <div className="total">
-          {data.slice(0, 10).map((dataObj, index) => {
-            return (
-              <div key={dataObj.publishedAt}>
-                <div className="news">
-                  <p>{dataObj.title}</p>
-                  <p>{dataObj.description}</p>
-                </div>
-              </div>
-            );
-          })}
+          <p className="pnews">{data.slice(0, 10)}</p>
         </div>
       </center>
     </div>
   );
 }
+
 export default App;
