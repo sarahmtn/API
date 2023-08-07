@@ -73,7 +73,7 @@ function App() {
           Bitcoin
         </button>
         <div className="total">
-          <p className="pnews">{data.slice(0, 10)}</p>
+          <div className="pnews">{data.slice(0, 10)}</div>
         </div>
       </center>
     </div>
