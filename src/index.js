@@ -1,10 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import { applyMiddleware } from "redux";
+import { legacy_createStore as createStore } from "redux";
+import thunk from "redux-thunk";
+import newsReducer from "./store/reducer";
+import App from "./App";
+
+const store = createStore(newsReducer, applyMiddleware(thunk));
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
+  <Provider store={store}>
     <App />
+  </Provider>
 );
-
-

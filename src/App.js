@@ -1,53 +1,19 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import style from "../src/CSS/Style.css";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchData, setQuery } from "./store/action";
+import style from "./CSS/Style.css";
 
-const url = "https://newsapi.org/v2/everything";
-const apiKey = "4783a4766727469eb9e05693ae480b9d";
-
-function App() {
-  const [data, setData] = useState([]);
-  const [query, setQuery] = useState("tesla");
+const App = () => {
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.data);
+  const query = useSelector((state) => state.query);
 
   useEffect(() => {
-    getData();
-  }, [query]);
-
-  const getData = () => {
-    axios
-      .get(url, {
-        params: {
-          q: query,
-          from: "2023-08-03",
-          sortBy: "publishedAt",
-          apiKey: apiKey,
-        },
-      })
-      .then((response) => {
-        const dataArray = [];
-        response.data.articles.forEach((dataObj) => {
-          dataArray.push(
-            <div key={dataObj.publishedAt}>
-              <div className="news">
-                <p>{dataObj.title}</p>
-                <p>{dataObj.description}</p>
-              </div>
-            </div>
-          );
-        });
-        setData(dataArray);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+    dispatch(fetchData(query));
+  }, [query, dispatch]);
 
   const handleQueryChange = (event) => {
-    setQuery(event.target.value);
-  };
-
-  const handleButtonClick = (newQuery) => {
-    setQuery(newQuery);
+    dispatch(setQuery(event.target.value));
   };
 
   return (
@@ -63,21 +29,19 @@ function App() {
           <option value="water">Water</option>
           <option value="bitcoin">Bitcoin</option>
         </select>
-        <button className="button" onClick={() => handleButtonClick("tesla")}>
-          Tesla
-        </button>
-        <button className="button" onClick={() => handleButtonClick("water")}>
-          water
-        </button>
-        <button className="button" onClick={() => handleButtonClick("bitcoin")}>
-          Bitcoin
-        </button>
         <div className="total">
-          <div className="pnews">{data.slice(0, 10)}</div>
+          <div className="pnews">
+            {data.slice(0, 10).map((dataObj) => (
+              <div key={dataObj.publishedAt} className="news">
+                <p className="pnews">{dataObj.title}</p>
+                <p className="pnews">{dataObj.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </center>
     </div>
   );
-}
+};
 
 export default App;
